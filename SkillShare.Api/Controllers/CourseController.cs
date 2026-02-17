@@ -1,0 +1,85 @@
+using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SkillShare.Domain.Dto.CourseDto;
+using SkillShare.Domain.Interfaces.Services;
+using SkillShare.Domain.Result;
+
+namespace SkillShare.Api.Controllers;
+
+[Authorize]
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+public class CourseController : ControllerBase
+{
+    private readonly ICourseService _courseService;
+
+    public CourseController(ICourseService courseService)
+    {
+        _courseService = courseService;
+    }
+
+    [HttpGet("User/{AuthorId}")]
+    public async Task<ActionResult<CollectionResult<CourseDto>>> GetByIdAuthorCourse(long AuthorId)
+    {
+        var response = await _courseService.GetByAuthorIdAsync(AuthorId);
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+        return BadRequest(response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<CourseDto>> GetCourse(long id)
+    {
+        var response = await _courseService.GetByIdAsync(id);
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+        return BadRequest(response);
+    }
+
+    [HttpDelete("DeleteCourseById")]
+    public async Task<ActionResult<DataResult<CourseDto>>> DeleteCourseById(long id)
+    {
+        var response = await _courseService.DeleteAsync(id);
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+        return BadRequest(response);
+    }
+
+    /// <summary>
+    /// Создание курса
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="dto"></param>
+    /// <remarks>
+    /// Some info
+    /// </remarks>
+    [HttpPost("CreateCourse")]
+    public async Task<ActionResult<DataResult<CourseDto>>> CreateCourse(long userId, CreateCourseDto dto)
+    {
+        var response = await _courseService.CreateAsync(userId, dto);
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+        return BadRequest(response);
+    }
+
+    [HttpPut("UpdateCourse")]
+    public async Task<ActionResult<DataResult<CourseDto>>> UpdateCourse(UpdateCourseDto dto)
+    {
+        var response = await _courseService.UpdateAsync(dto);
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+        return BadRequest(response);
+    }
+}

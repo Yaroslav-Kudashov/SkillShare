@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SkillShare.Domain.Entities;
+using SkillShare.Domain.Enum;
+using SkillShare.Domain.Interfaces;
+
+namespace SkillShare.Domain.Entities;
+
+public class Question : IEntityId<long>, IAuditable
+{ 
+    public long Id { get; set; }
+
+    public int LessonId { get; set; }
+
+    public string Description { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdateAt { get; set; }
+
+    public Difficult Difficult { get; set; }
+
+    public Lesson Lesson { get; set; }
+
+    public List<Answer> Answers { get; set; }
+
+}

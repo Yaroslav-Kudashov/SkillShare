@@ -13,9 +13,6 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["SkillShare.Api/SkillShare.Api.csproj", "SkillShare.Api/"]
-COPY ["SkillShare.Application/SkillShare.Application.csproj", "SkillShare.Application/"]
-COPY ["SkillShare.DAL/SkillShare.DAL.csproj", "SkillShare.DAL/"]
-COPY ["SkillShare.Domain/SkillShare.Domain.csproj", "SkillShare.Domain/"]
 RUN dotnet restore "./SkillShare.Api/SkillShare.Api.csproj"
 COPY . .
 WORKDIR "/src/SkillShare.Api"
