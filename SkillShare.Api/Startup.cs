@@ -70,7 +70,7 @@ public static class Startup
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 In = ParameterLocation.Header,
-                Description = "Введите пожалуйста валидеый токен",
+                Description = "Введите пожалуйста валидный токен",
                 Name = "Авторизация",
                 Type = SecuritySchemeType.Http,
                 BearerFormat = "JWT",

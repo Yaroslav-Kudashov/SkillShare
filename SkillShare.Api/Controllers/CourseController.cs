@@ -34,6 +34,7 @@ public class CourseController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CourseDto>> GetCourse(long id)
     {
+        var user = User;
         var response = await _courseService.GetByIdAsync(id);
         if (response.IsSuccess)
         {

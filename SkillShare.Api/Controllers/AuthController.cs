@@ -42,6 +42,11 @@ public class AuthController : Controller
     [HttpPost("login")]
     public async Task<ActionResult<DataResult<TokenDto>>> Login(LoginUserDto dto)
     {
-
+        var response = await _authService.Login(dto);
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+        return BadRequest(response);
     }
 }

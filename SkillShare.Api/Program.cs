@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using SkillShare.Api.Middlewares;
 using SkillShare.Application.DependencyInjection;
 using SkillShare.DAL;
 using SkillShare.DAL.DependencyInjection;
@@ -28,6 +29,8 @@ public class Program
         builder.Services.AddApplication();
 
         var app = builder.Build();
+
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         if (app.Environment.IsDevelopment())
         {

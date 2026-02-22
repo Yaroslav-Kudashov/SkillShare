@@ -10,10 +10,23 @@ public enum ErrorCodes
 {
     UserNotFound = 1001,
     UserAlreadyExists = 1002,
+    InvalidClientRequest = 1003,
+    UserRolesNotFound = 1004,
+    UserAlreadyExistsRole = 1005,
 
     CourseNotFound = 2001,
     CourseAlreadyExists = 2002,
 
-    PasswordNotEqualsPasswordConfirm = 3001
+    PasswordNotEqualsPasswordConfirm = 3001,
+    PasswordIsWrong = 3002,
+
+    InvalidRefreshToken = 4001,
+    TokenMismatch = 4002,
+    RefreshTokenExpired = 4003,
+
+    RoleAlreadyExists = 5001,
+    RoleNotFound = 5002,
+
+    ValidError = 6001
 
 }

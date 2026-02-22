@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SkillShare.DAL.Configurations;
 using SkillShare.DAL.Interceptors;
 
 namespace SkillShare.DAL;
@@ -13,7 +14,7 @@ namespace SkillShare.DAL;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    { 
+    {
         Database.EnsureCreated();
     }
 
@@ -27,7 +28,4 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-
-
-
 }

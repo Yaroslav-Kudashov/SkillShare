@@ -127,9 +127,42 @@
     <value>Пароли не совпадают</value>
   </data>
   <data name="UserAlreadyExists" xml:space="preserve">
-    <value>Пользователь с такими данными уже существует</value>
+    <value>пользователь уже существует</value>
+  </data>
+  <data name="PasswordIsWrong" xml:space="preserve">
+    <value>Пароль неверный</value>
+  </data>
+  <data name="Invalid token" xml:space="preserve">
+    <value>Невалидный токен</value>
+  </data>
+  <data name="InvalidClientRequest" xml:space="preserve">
+    <value>Невалидный запрос клиента</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>Пользователь не найден</value>
+  </data>
+  <data name="UserRolesNotFound" xml:space="preserve">
+    <value>Роли пользователя не найдены</value>
+  </data>
+  <data name="InvalidRefreshToken" xml:space="preserve">
+    <value>недопустимый токен обновления</value>
+  </data>
+  <data name="TokenMismatch" xml:space="preserve">
+    <value>Несоответствие токенов</value>
+  </data>
+  <data name="RefreshTokenExpired" xml:space="preserve">
+    <value>Срок действия токена обновления истек</value>
+  </data>
+  <data name="RoleAlreadyExists" xml:space="preserve">
+    <value>Роль уже существует </value>
+  </data>
+  <data name="ValidError" xml:space="preserve">
+    <value>Ошибка валидации</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Роль не найдена</value>
+  </data>
+  <data name="UserAlreadyExistsRole" xml:space="preserve">
+    <value>пользователь уже имеет эту роль</value>
   </data>
 </root>

@@ -61,7 +61,7 @@ namespace SkillShare.Application.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Курс с таким названием уже существует.
         /// </summary>
         internal static string CourseAlreadyExists {
             get {
@@ -79,7 +79,43 @@ namespace SkillShare.Application.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Невалидный токен.
+        /// </summary>
+        internal static string Invalid_token {
+            get {
+                return ResourceManager.GetString("Invalid token", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Невалидный запрос клиента.
+        /// </summary>
+        internal static string InvalidClientRequest {
+            get {
+                return ResourceManager.GetString("InvalidClientRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Недопустимый токен обновления.
+        /// </summary>
+        internal static string InvalidRefreshToken {
+            get {
+                return ResourceManager.GetString("InvalidRefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пароль неверный.
+        /// </summary>
+        internal static string PasswordIsWrong {
+            get {
+                return ResourceManager.GetString("PasswordIsWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пароли не совпадают.
         /// </summary>
         internal static string PasswordNotEqualsPasswordConfirm {
             get {
@@ -88,11 +124,56 @@ namespace SkillShare.Application.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Срок действия токена обновления истек.
+        /// </summary>
+        internal static string RefreshTokenExpired {
+            get {
+                return ResourceManager.GetString("RefreshTokenExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Роль уже существует .
+        /// </summary>
+        internal static string RoleAlreadyExists {
+            get {
+                return ResourceManager.GetString("RoleAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Роль не найдена.
+        /// </summary>
+        internal static string RoleNotFound {
+            get {
+                return ResourceManager.GetString("RoleNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Несоответствие токенов.
+        /// </summary>
+        internal static string TokenMismatch {
+            get {
+                return ResourceManager.GetString("TokenMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пользователь уже существует.
         /// </summary>
         internal static string UserAlreadyExists {
             get {
                 return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пользователь уже имеет эту роль.
+        /// </summary>
+        internal static string UserAlreadyExistsRole {
+            get {
+                return ResourceManager.GetString("UserAlreadyExistsRole", resourceCulture);
             }
         }
         
@@ -102,6 +183,24 @@ namespace SkillShare.Application.Resources {
         internal static string UserNotFound {
             get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Роли пользователя не найдены.
+        /// </summary>
+        internal static string UserRolesNotFound {
+            get {
+                return ResourceManager.GetString("UserRolesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка валидации.
+        /// </summary>
+        internal static string ValidError {
+            get {
+                return ResourceManager.GetString("ValidError", resourceCulture);
             }
         }
     }

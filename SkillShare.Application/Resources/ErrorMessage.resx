@@ -118,18 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CourseAlreadyExists" xml:space="preserve">
-    <value />
+    <value>Курс с таким названием уже существует</value>
   </data>
   <data name="CourseNotFound" xml:space="preserve">
     <value>Курс не найден</value>
   </data>
   <data name="PasswordNotEqualsPasswordConfirm" xml:space="preserve">
-    <value />
+    <value>Пароли не совпадают</value>
   </data>
   <data name="UserAlreadyExists" xml:space="preserve">
-    <value />
+    <value>Пользователь уже существует</value>
+  </data>
+  <data name="PasswordIsWrong" xml:space="preserve">
+    <value>Пароль неверный</value>
+  </data>
+  <data name="Invalid token" xml:space="preserve">
+    <value>Невалидный токен</value>
+  </data>
+  <data name="InvalidClientRequest" xml:space="preserve">
+    <value>Невалидный запрос клиента</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>Пользователь не найден</value>
+  </data>
+  <data name="UserRolesNotFound" xml:space="preserve">
+    <value>Роли пользователя не найдены</value>
+  </data>
+  <data name="InvalidRefreshToken" xml:space="preserve">
+    <value>Недопустимый токен обновления</value>
+  </data>
+  <data name="TokenMismatch" xml:space="preserve">
+    <value>Несоответствие токенов</value>
+  </data>
+  <data name="RefreshTokenExpired" xml:space="preserve">
+    <value>Срок действия токена обновления истек</value>
+  </data>
+  <data name="RoleAlreadyExists" xml:space="preserve">
+    <value>Роль уже существует </value>
+  </data>
+  <data name="ValidError" xml:space="preserve">
+    <value>Ошибка валидации</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Роль не найдена</value>
+  </data>
+  <data name="UserAlreadyExistsRole" xml:space="preserve">
+    <value>Пользователь уже имеет эту роль</value>
   </data>
 </root>

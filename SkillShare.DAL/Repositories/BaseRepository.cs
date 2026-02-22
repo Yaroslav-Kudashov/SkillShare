@@ -43,7 +43,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return Task.FromResult(entity);
     }
 
-    public Task<TEntity> UpdateAsync(TEntity entity)
+    public  Task<TEntity> UpdateAsync(TEntity entity)
     {
         if (entity == null)
             throw new ArgumentNullException("Entity is null");

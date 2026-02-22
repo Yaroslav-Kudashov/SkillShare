@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Org.BouncyCastle.Crypto.Generators;
 using SkillShare.Domain.Entities;
 
 namespace SkillShare.DAL.Configurations;
@@ -23,15 +24,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(u => u.Email).IsUnique();
 
-        builder.HasMany(u => u.Roles).WithMany(r => r.Users).UsingEntity<UserRole>(            
+        builder.HasMany(u => u.Roles).WithMany(r => r.Users).UsingEntity<UserRole>(
             join => join
                 .HasOne<Role>()
-                .WithMany()    
+                .WithMany()
                 .HasForeignKey(ur => ur.RoleId)
                 .OnDelete(DeleteBehavior.Cascade),
             join => join
                 .HasOne<User>()
-                .WithMany()  
+                .WithMany()
                 .HasForeignKey(ur => ur.UserId)
                 .OnDelete(DeleteBehavior.Cascade),
             join =>
@@ -49,5 +50,33 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         .WithOne(c => c.Author)
         .HasForeignKey(c => c.AuthorId)
         .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasData(
+           new User
+           {
+               Id = 1,
+               Login = "admin",
+               Email = "admin@skillshare.com",
+               Name = "Admin User",
+               Password = "admin123",
+           },
+           new User
+           {
+               Id = 2,
+               Login = "instructor",
+               Email = "instructor@skillshare.com",
+               Name = "John Doe",
+               Password ="instructor123"
+           },
+           new User
+           {
+               Id = 3,
+               Login = "bob123",
+               Email = "bob@example.com",
+               Name = "Bob Smith",
+               Password = "bob123"  
+           }
+       );
     }
 }
+

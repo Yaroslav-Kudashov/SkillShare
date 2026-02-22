@@ -39,8 +39,9 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
              );
 
         builder.HasData(
-            new Role { Id = 1, Name = "Teacher" },
-            new Role { Id = 2, Name = "Student" }
+            new Role { Id = 1, Name = "Admin" },
+            new Role { Id = 2, Name = "Instructor" },
+            new Role { Id = 3, Name = "Student" }
         );
     }
 }

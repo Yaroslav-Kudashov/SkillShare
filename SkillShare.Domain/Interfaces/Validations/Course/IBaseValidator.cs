@@ -8,10 +8,7 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Domain.Interfaces.Validations;
 
-public interface IBaseUserValidator<in T> where T : class
+public interface IBaseValidator<in T> where T : class
 {
-    BaseResult ValidatorPassword(User user);
-    BaseResult ValidateRegister(T model);
+    BaseResult ValidateOnNull(T model);
 }
-
-

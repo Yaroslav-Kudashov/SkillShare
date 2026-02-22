@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using SkillShare.Application.Services;
 using SkillShare.Application.Validations;
 using SkillShare.Application.Validations.FluentValidations.Course;
+using SkillShare.Application.Validations.FluentValidations.Role;
 using SkillShare.Domain.Dto.CourseDto;
+using SkillShare.Domain.Dto.Role;
 using SkillShare.Domain.Interfaces.Services;
-using SkillShare.Domain.Interfaces.Validations.Course;
+using SkillShare.Domain.Interfaces.Validations;
 
 namespace SkillShare.Application.DependencyInjection;
 
@@ -25,7 +27,17 @@ public static class DependencyInjection
         services.AddScoped<ICourseValidator, CourseValidator>();
         services.AddScoped<IValidator<CreateCourseDto>, CreateCourseValidator>();
         services.AddScoped<IValidator<UpdateCourseDto>, UpdateCourseValidator>();
+
+        services.AddScoped<IValidator, RoleValidator>();
+        services.AddScoped<IValidator<UpdateRoleDto>, UpdateRoleValidator>();
+        services.AddScoped<IValidator<CreateRoleDto>, CreateRoleValidator>();
+
+
+
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITokenService, TokenService>();
     }
 
     private static void InitMapsterMapping(this IServiceCollection services)

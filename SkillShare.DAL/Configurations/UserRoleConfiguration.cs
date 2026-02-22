@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using SkillShare.Domain.Entities;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace SkillShare.DAL.Configurations;
 
@@ -19,6 +20,12 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 
         builder.Property(ur => ur.UserId).IsRequired();
         builder.Property(ur => ur.RoleId).IsRequired();
-        builder.HasIndex(ur => ur.RoleId);        
+        builder.HasIndex(ur => ur.RoleId);
+
+        builder.HasData(
+           new UserRole { UserId = 1, RoleId = 1 }, // Admin - Admin роль
+           new UserRole { UserId = 2, RoleId = 2 }, // Instructor - Instructor роль
+           new UserRole { UserId = 3, RoleId = 3 }  // bob123 - Student роль
+       );
     }
 }

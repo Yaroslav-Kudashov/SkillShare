@@ -1,34 +1,67 @@
+version: '3.8'
+
 services:
   skillshare.api:
     image: skillshare.api
+    container_name: skillshare-api
     build:
       context: .
       dockerfile: SkillShare.Api/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=skillshare.db;Port=5432;Database=SkillShare;Username=postgres;Password=postgres
+    depends_on:
+      - skillshare.db
+    restart: unless-stopped
+    networks:
+      - mynw
 
   skillshare.db:
-    image: postgres
-    container_name: skillsharedb
+    image: postgres:17
+    container_name: skillshare-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=SkillShare
-    restart: always
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mynw
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
+    container_name: skillshare-pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.ru
       - PGADMIN_DEFAULT_PASSWORD=admin
-    restart: always
+      - PGADMIN_CONFIG_SERVER_MODE=False
     ports:
       - "5050:80"
+    depends_on:
+      - skillshare.db
+    restart: unless-stopped
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - mynw
 
 volumes:
   postgres_data:
+    name: skillshare_postgres_data
+  pgadmin_data:
+    name: skillshare_pgadmin_data
 
 networks:
   mynw:
+    name: skillshare_network
+    driver: bridge

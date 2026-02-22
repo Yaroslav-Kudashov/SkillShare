@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillShare.Domain.Dto
-{
-    public record UserRoleDto(string RoleName, int Login);
-}
+namespace SkillShare.Domain.Dto.Role;
+
+public record CreateRoleDto(string Name);
+
+
+

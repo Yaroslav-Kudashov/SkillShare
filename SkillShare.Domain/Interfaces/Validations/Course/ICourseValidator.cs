@@ -3,7 +3,7 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Domain.Interfaces.Validations;
 
-public interface ICourseValidator : ICourseValidator<Course>
+public interface ICourseValidator : IBaseValidator<Course>
 {
     /// <summary>
     /// Проверяется наличие курса, если курс с таким названием есть в БД, создать такой же нельзя
