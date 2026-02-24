@@ -10,10 +10,13 @@ services:
     ports:
       - "8080:80"
     environment:
+      - RabbitMQSettings__HostName=rabbitmq 
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=skillshare.db;Port=5432;Database=SkillShare;Username=postgres;Password=postgres
+      - ConnectionStrings__RabbitMQ=amqp://admin:admin@rabbitmq:5672/
     depends_on:
       - skillshare.db
+      - rabbitmq 
     restart: unless-stopped
     networks:
       - mynw
@@ -55,11 +58,28 @@ services:
     networks:
       - mynw
 
+  rabbitmq: 
+    image: rabbitmq:3-management 
+    container_name: skillshare-rabbitmq 
+    restart: always 
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin       
+      - RABBITMQ_DEFAULT_PASS=admin     
+    ports:
+      - "5672:5672"    
+      - "15672:15672"  
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq 
+    networks:
+      - mynw
+
 volumes:
   postgres_data:
     name: skillshare_postgres_data
   pgadmin_data:
     name: skillshare_pgadmin_data
+  rabbitmq_data: 
+    name: skillshare_rabbitmq_data
 
 networks:
   mynw:

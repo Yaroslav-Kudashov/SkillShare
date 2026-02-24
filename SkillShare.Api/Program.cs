@@ -2,9 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SkillShare.Api.Middlewares;
 using SkillShare.Application.DependencyInjection;
+using SkillShare.Consumer.DependencyInjection;
 using SkillShare.DAL;
 using SkillShare.DAL.DependencyInjection;
 using SkillShare.Domain.Settings;
+using SkillShare.Producer.DependencyInjection;
 namespace SkillShare.Api;
 
 public class Program
@@ -13,18 +15,18 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.DefaultSection));
 
         builder.Services.AddDataAccessLayer(builder.Configuration);
-
         builder.Services.AddControllers();
+        builder.Services.AddProducer();
+        builder.Services.AddConsumer();
 
         builder.Services.AddAuthenticationAndAuthorization(builder);
-
         builder.Services.AddSwagger();
 
         builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
-
         
         builder.Services.AddApplication();
 
