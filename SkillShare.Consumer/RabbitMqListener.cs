@@ -32,29 +32,59 @@ public class RabbitMqListener : BackgroundService
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
 
+        _channel.ExchangeDeclare(
+            exchange: _settings.ExchangeName,
+            type: ExchangeType.Direct,
+            durable: true,
+            autoDelete: false,
+            arguments: null);
+
         _channel.QueueDeclare(
             queue: _settings.QueueName,
             durable: true,
             exclusive: false,
             autoDelete: false,
             arguments: null);
+
+        _channel.QueueBind(
+            queue: _settings.QueueName,
+            exchange: _settings.ExchangeName,
+            routingKey: _settings.RoutingKey
+        );
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        stoppingToken.ThrowIfCancellationRequested();
-
-        var consumer = new EventingBasicConsumer(_channel);
-        consumer.Received += (obj, basicDeliver) =>
+        try
         {
-            var content = Encoding.UTF8.GetString(basicDeliver.Body.ToArray());
-            Debug.WriteLine($"[RabbitMQ] Получено сообщение: {content}");
+            stoppingToken.ThrowIfCancellationRequested();
 
-            _channel.BasicAck(basicDeliver.DeliveryTag, false);
-        };
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (obj, basicDeliver) =>
+            {
+                var content = Encoding.UTF8.GetString(basicDeliver.Body.ToArray());
+                Debug.WriteLine($"[RabbitMQ] Получено сообщение: {content}");
 
-        _channel.BasicConsume(_settings.QueueName, false, consumer);
+                if (_channel.IsOpen)
+                {
+                    Debug.WriteLine("Канал открыт");
 
+                    _channel.BasicAck(basicDeliver.DeliveryTag, false);
+                }
+                else
+                {
+                    Debug.WriteLine("Канал был закрыт");
+                }
+            };
+
+            _channel.BasicConsume(_settings.QueueName, false, consumer);
+
+            return Task.CompletedTask;
+        }
+        catch (Exception ex) 
+        {
+            Debug.WriteLine(ex);
+        }
         return Task.CompletedTask;
     }
 

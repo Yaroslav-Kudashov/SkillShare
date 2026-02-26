@@ -13,12 +13,6 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        Console.WriteLine("=== Environment Variables ===");
-        Console.WriteLine($"RabbitMQSettings__HostName: {Environment.GetEnvironmentVariable("RabbitMQSettings__HostName")}");
-        Console.WriteLine($"ASPNETCORE_ENVIRONMENT: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
-        var rabbitHost = builder.Configuration["RabbitMQSettings:HostName"];
-        Console.WriteLine($"Configured RabbitMQ Host: {rabbitHost}");
-
         builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.DefaultSection));
 

@@ -6,30 +6,49 @@ namespace SkillShare.DAL.Interceptors;
 
 public class DateInterceptor : SaveChangesInterceptor
 {
-    public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
+    // Синхронный метод (для SaveChanges)
+    public override InterceptionResult<int> SavingChanges(
+        DbContextEventData eventData,
+        InterceptionResult<int> result)
     {
-        var dbcontex = eventData.Context;
-        if (dbcontex == null)
-        {
-            return base.SavingChanges(eventData, result);
-        }
+        UpdateAuditableEntities(eventData.Context);
+        return base.SavingChanges(eventData, result);
+    }
 
-        var entries = dbcontex.ChangeTracker.Entries<IAuditable>();
+    // Асинхронный метод (для SaveChangesAsync) - ЭТОТ ВАЖНО!
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
+        CancellationToken cancellationToken = default)
+    {
+        UpdateAuditableEntities(eventData.Context);
+        return base.SavingChangesAsync(eventData, result, cancellationToken);
+    }
+
+    private void UpdateAuditableEntities(DbContext? context)
+    {
+        if (context == null) return;
+
+        var entries = context.ChangeTracker
+            .Entries<IAuditable>()
+            .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
         foreach (var entry in entries)
         {
             if (entry.State == EntityState.Added)
             {
                 entry.Property(x => x.CreatedAt).CurrentValue = DateTime.UtcNow;
+                entry.Property(x => x.UpdateAt).CurrentValue = DateTime.UtcNow;
             }
 
             if (entry.State == EntityState.Modified)
             {
                 entry.Property(x => x.UpdateAt).CurrentValue = DateTime.UtcNow;
+                // Запрещаем изменение CreatedAt
+                entry.Property(x => x.CreatedAt).IsModified = false;
             }
         }
-
-
-        return base.SavingChanges(eventData, result);
     }
 }
+
 
