@@ -1,3 +1,4 @@
+using Prometheus;
 using Serilog;
 using SkillShare.Api.Middlewares;
 using SkillShare.Application.DependencyInjection;
@@ -5,6 +6,7 @@ using SkillShare.Consumer.DependencyInjection;
 using SkillShare.DAL.DependencyInjection;
 using SkillShare.Domain.Settings;
 using SkillShare.Producer.DependencyInjection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace SkillShare.Api;
 
 public class Program
@@ -15,6 +17,10 @@ public class Program
 
         builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.DefaultSection));
+        builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection(nameof(RedisSettings)));
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.UseHttpClientMetrics();
 
         builder.Services.AddDataAccessLayer(builder.Configuration);
         builder.Services.AddControllers();
@@ -26,7 +32,7 @@ public class Program
 
         builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
         
-        builder.Services.AddApplication();
+        builder.Services.AddApplication(builder.Configuration);
 
         var app = builder.Build();
 
@@ -44,6 +50,16 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseMetricServer();
+        app.UseHttpMetrics();
+
+        app.MapGet("/random-number", () =>
+        {
+            var number = Random.Shared.Next(0, 10);
+            return Results.Ok(number);
+        });
+
+        app.MapMetrics();
         app.MapControllers();
 
         app.Run();

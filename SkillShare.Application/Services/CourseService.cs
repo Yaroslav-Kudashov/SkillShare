@@ -1,12 +1,14 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Serilog;
 using SkillShare.Application.Resources;
 using SkillShare.Domain.Dto.CourseDto;
 using SkillShare.Domain.Entities;
 using SkillShare.Domain.Enum;
+using SkillShare.Domain.Extensions;
 using SkillShare.Domain.Interfaces.Repositories;
 using SkillShare.Domain.Interfaces.Services;
 using SkillShare.Domain.Interfaces.Validations;
@@ -23,13 +25,18 @@ public class CourseService : ICourseService
     private readonly IBaseRepository<User> _userRepository;
     private readonly IBaseRepository<Course> _courseRepository;
     private readonly ICourseValidator _courseValidator;
+    private readonly IDistributedCache _distributedCache;
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
     public CourseService(IBaseRepository<Course> courseRepository,
-        ILogger logger, IMapper mapper,
-        ICourseValidator courseValidator,
-        IBaseRepository<User> userRepository, IMessageProducer messageProducer, IOptions<RabbitMqSettings> rabbitMqOptions)
+                         ILogger logger,
+                         IMapper mapper,
+                         ICourseValidator courseValidator,
+                         IBaseRepository<User> userRepository,
+                         IMessageProducer messageProducer,
+                         IOptions<RabbitMqSettings> rabbitMqOptions,
+                         IDistributedCache distributedCache)
     {
         _courseValidator = courseValidator;
         _courseRepository = courseRepository;
@@ -38,6 +45,7 @@ public class CourseService : ICourseService
         _userRepository = userRepository;
         _messageProducer = messageProducer;
         _rabbitMqOptions = rabbitMqOptions;
+        _distributedCache = distributedCache;
     }
 
     public async Task<DataResult<CourseDto>> CreateAsync(long userId, CreateCourseDto dto, CancellationToken ct = default)
@@ -109,6 +117,8 @@ public class CourseService : ICourseService
         {
             return DataResult<CourseDto>.Failure((int)ErrorCodes.CourseNotFound, ErrorMessage.CourseNotFound);
         }
+        _distributedCache.SetObject($"Сourse_{courseId}", course);
+
         return DataResult<CourseDto>.Success(course);
     }
 
