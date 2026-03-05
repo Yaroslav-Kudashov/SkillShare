@@ -5,11 +5,12 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.DAL.Repositories;
 
+/// <summary>
+/// Общий репозиторий для сущностей с методами 
+/// </summary>
 public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
-
-
     public UnitOfWork(
         ApplicationDbContext context,
         IBaseRepository<User> users,
@@ -34,16 +35,27 @@ public class UnitOfWork : IUnitOfWork
         UserTokens = userTokens;
     }
 
+    /// <summary>
+    /// Метод предназначенный для начала транзакции
+    /// </summary>
+    /// <returns></returns>
     public async Task<IDbContextTransaction> BeginTransactionAsync()
     {
         return await _context.Database.BeginTransactionAsync();
     }
 
+    /// <summary>
+    /// Метод сохранения 
+    /// </summary>
+    /// <returns></returns>
     public async Task<int> SaveChangesAsync()
     {
        return await _context.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Реализация репозиториев
+    /// </summary>
     public IBaseRepository<User> Users { get; set; }
     public IBaseRepository<Role> Roles { get; set; }
     public IBaseRepository<UserRole> UserRoles { get; set; }

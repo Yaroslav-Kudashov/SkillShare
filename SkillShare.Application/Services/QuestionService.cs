@@ -13,6 +13,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Application.Services;
 
+/// <summary>
+/// Сервис для работы с вопросами
+/// </summary>
 public class QuestionService : IQuestionService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -25,6 +28,12 @@ public class QuestionService : IQuestionService
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Получение вопроса по id 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<QuestionDto>> GetByIdAsync(int id, CancellationToken ct = default)
     {
         var question = await _unitOfWork.Questions.GetAll()
@@ -41,6 +50,12 @@ public class QuestionService : IQuestionService
         return DataResult<QuestionDto>.Success(question);
     }
 
+    /// <summary>
+    /// Получение вопроса по id урока
+    /// </summary>
+    /// <param name="lessonId"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<CollectionResult<QuestionDto>> GetByLessonIdAsync(int lessonId, CancellationToken ct = default)
     {
         var lessonExists = await _unitOfWork.Lessons.ExistsAsync(x => x.Id == lessonId, ct);
@@ -63,6 +78,12 @@ public class QuestionService : IQuestionService
         return CollectionResult<QuestionDto>.Success(questions);
     }
 
+    /// <summary>
+    /// Создание вопроса
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<QuestionDto>> CreateAsync(CreateQuestionDto dto, CancellationToken ct = default)
     {
         var lessonExists = await _unitOfWork.Lessons.ExistsAsync(x => x.Id == dto.LessonId, ct);
@@ -84,6 +105,12 @@ public class QuestionService : IQuestionService
         return DataResult<QuestionDto>.Success(_mapper.Map<QuestionDto>(newQuestion));
     }
 
+    /// <summary>
+    /// Удаление вопроса
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<QuestionDto>> DeleteAsync(int id, CancellationToken ct = default)
     {
         var question = await _unitOfWork.Questions.GetAll()

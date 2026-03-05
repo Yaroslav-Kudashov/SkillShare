@@ -5,6 +5,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
+/// <summary>
+/// Контроллер для обновления токена
+/// </summary>
 [ApiController]
 [Route("api/v{version:apiVersion}/Tokens")]
 public class TokenController : Controller
@@ -16,7 +19,12 @@ public class TokenController : Controller
         _tokenService = tokenService;
     }
 
-    [HttpPost]
+    /// <summary>
+    /// Обновление токена пользователя
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [HttpPost("Refresh")]
     public async Task<ActionResult<DataResult<TokenDto>>> RefreshToken(TokenDto dto)
     {
         var response = await _tokenService.RefreshToken(dto);

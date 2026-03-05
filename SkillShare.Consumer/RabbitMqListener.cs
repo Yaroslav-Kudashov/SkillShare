@@ -9,6 +9,9 @@ using RabbitMQ.Client.Events;
 using SkillShare.Domain.Settings;
 
 namespace SkillShare.Consumer;
+/// <summary>
+/// Класс предназначенный для чтения сообщений в RabiitMq
+/// </summary>
 public class RabbitMqListener : BackgroundService
 {
     private readonly IConnection _connection;
@@ -53,6 +56,11 @@ public class RabbitMqListener : BackgroundService
         );
     }
 
+    /// <summary>
+    /// Метод для получения сообщения
+    /// </summary>
+    /// <param name="stoppingToken"></param>
+    /// <returns></returns>
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
@@ -88,6 +96,9 @@ public class RabbitMqListener : BackgroundService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Метод для закрытия канала
+    /// </summary>
     public override void Dispose()
     {
         if (_channel.IsOpen) _channel.Close();

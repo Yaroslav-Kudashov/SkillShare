@@ -1,5 +1,8 @@
 ﻿namespace SkillShare.Domain.Entities;
 
+/// <summary>
+/// Сущность для работы с оценками пользователей за курс
+/// </summary>
 public class UserCourseGrade
 {
     public long Id { get; set; }

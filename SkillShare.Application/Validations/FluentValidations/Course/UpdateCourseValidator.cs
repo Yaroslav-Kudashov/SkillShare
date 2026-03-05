@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.CourseDto;
 
 namespace SkillShare.Application.Validations.FluentValidations.Course;
 
+/// <summary>
+/// Валидация обновления курса
+/// </summary>
 public class UpdateCourseValidator : AbstractValidator<UpdateCourseDto>
 {
     public UpdateCourseValidator()

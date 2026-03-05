@@ -3,6 +3,9 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace SkillShare.Domain.Extensions;
 
+/// <summary>
+/// Кешированние данных
+/// </summary>
 public static class DistributedCacheExtensions
 {
     public static T GetObject<T>(this IDistributedCache cache, string key)

@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.Role;
 
 namespace SkillShare.Application.Validations.FluentValidations.Role;
 
+/// <summary>
+/// Валидация обновления роли 
+/// </summary>
 public class UpdateRoleValidator : AbstractValidator<UpdateRoleDto>
 {
     public UpdateRoleValidator()

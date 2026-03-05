@@ -4,6 +4,10 @@ using SkillShare.Domain.Entities;
 
 namespace SkillShare.DAL.Configurations;
 
+
+/// <summary>
+/// Настройки для сущности 
+/// </summary>
 public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)

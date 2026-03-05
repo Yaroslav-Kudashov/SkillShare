@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Linq;
+using FluentValidation;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Application.Services;
 
+/// <summary>
+/// Сервис для работы с уроками
+/// </summary>
 public class LessonService : ILessonService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -25,6 +29,12 @@ public class LessonService : ILessonService
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Получение урока по id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<LessonDto>> GetByIdAsync(int id, CancellationToken ct = default)
     {
         var lessonDto = await _unitOfWork.Lessons.GetAll()
@@ -41,85 +51,37 @@ public class LessonService : ILessonService
         return DataResult<LessonDto>.Success(lessonDto);
     }
 
+    /// <summary>
+    /// Пройти урок
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<float>> PassLessonAsync(PassLessonDto dto, CancellationToken ct = default)
     {
-        var userExists = await _unitOfWork.Users.ExistsAsync(u => u.Id == dto.UserId, ct);
-        if (!userExists)
+        var (validationResult, courseId) = await ValidateUserAndLesson(dto.UserId, dto.LessonId, ct);
+        if (!validationResult.IsSuccess)
         {
-            return DataResult<float>.Failure((int)ErrorCodes.UserNotFound, ErrorMessage.UserNotFound);
+            return DataResult<float>.Failure(validationResult.Error);
         }
 
-        var lesson = await _unitOfWork.Lessons.GetAll()
-            .Where(l => l.Id == dto.LessonId)
-            .Select(l => new { l.Id, l.CourseId })
-            .FirstOrDefaultAsync(ct);
+        var (answersToSave, lessonGrade) = await ProcessAnswers(dto, ct);
 
-        if (lesson == null)
-        {
-            return DataResult<float>.Failure((int)ErrorCodes.LessonNotFound, ErrorMessage.LessonNotFound);
-        }
+        await UpdateCourseGrade(dto.UserId, courseId, lessonGrade, ct);
 
-        var questionIds = dto.UserAnswers.Select(x => (int)x.QuestionId).ToList();
-        var questionsData = await _unitOfWork.Questions.GetAll()
-            .Where(q => q.LessonId == dto.LessonId && questionIds.Contains((int)q.Id))
-            .ToDictionaryAsync(
-                k => (long)k.Id,
-                v => new { v.CorrectAnswer, v.Score }, 
-                ct);
+        await _unitOfWork.StudentAnswers.CreateRangeAsync(answersToSave, ct);
 
-        float lessonGrade = 0;
-        var answersToSave = new List<StudentAnswer>();
-
-        foreach (var userAnswer in dto.UserAnswers)
-        {
-            if (!questionsData.TryGetValue(userAnswer.QuestionId, out var questionInfo)) continue;
-
-            bool isCorrect = string.Equals(
-                userAnswer.UserAnswer?.Trim(),
-                questionInfo.CorrectAnswer?.Trim(),
-                StringComparison.OrdinalIgnoreCase);
-
-            float pointsEarned = isCorrect ? questionInfo.Score : 0;
-            lessonGrade += pointsEarned;
-
-            answersToSave.Add(new StudentAnswer
-            {
-                StudentId = dto.UserId,
-                QuestionId = userAnswer.QuestionId,
-                Score = pointsEarned
-            });
-        }
-
-        var userCourseGrade = await _unitOfWork.UserCourseGrades.GetAll()
-            .FirstOrDefaultAsync(x => x.CourseId == lesson.CourseId && x.UserId == dto.UserId, ct);
-
-        if (userCourseGrade == null)
-        {
-            userCourseGrade = new UserCourseGrade
-            {
-                UserId = dto.UserId,
-                CourseId = lesson.CourseId,
-                Grade = lessonGrade
-            };
-            await _unitOfWork.UserCourseGrades.CreateAsync(userCourseGrade);
-        }
-        else
-        {
-            userCourseGrade.Grade += lessonGrade;
-            _unitOfWork.UserCourseGrades.Update(userCourseGrade);
-        }
-
-        foreach (var answer in answersToSave)
-        {
-            await _unitOfWork.StudentAnswers.CreateAsync(answer);
-        }
-
-        await _unitOfWork.StudentAnswers.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         return DataResult<float>.Success(lessonGrade);
     }
 
-
+    /// <summary>
+    /// Получение урока по id курса
+    /// </summary>
+    /// <param name="courseId"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<CollectionResult<LessonDto>> GetByCourseIdAsync(int courseId, CancellationToken ct = default)
     {
         var courseExists = await _unitOfWork.Courses.ExistsAsync(x => x.Id == courseId, ct);
@@ -142,6 +104,12 @@ public class LessonService : ILessonService
         return CollectionResult<LessonDto>.Success(lessons);
     }
 
+    /// <summary>
+    /// Создание урока
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<LessonDto>> CreateAsync(CreateLessonDto dto, CancellationToken ct = default)
     {
         var courseExists = await _unitOfWork.Courses.ExistsAsync(x => x.Id == dto.CourseId, ct);
@@ -164,8 +132,12 @@ public class LessonService : ILessonService
         return DataResult<LessonDto>.Success(_mapper.Map<LessonDto>(newLesson));
     }
 
-
-
+    /// <summary>
+    /// Удаление урока
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<LessonDto>> DeleteAsync(int id, CancellationToken ct = default)
     {
         var lesson = await _unitOfWork.Lessons.GetAll()
@@ -182,6 +154,12 @@ public class LessonService : ILessonService
         return DataResult<LessonDto>.Success(_mapper.Map<LessonDto>(lesson));
     }
 
+    /// <summary>
+    /// Обновление урока
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<LessonDto>> UpdateAsync(UpdateLessonDto dto, CancellationToken ct = default)
     {
         var lesson = await _unitOfWork.Lessons.GetAll()
@@ -199,5 +177,91 @@ public class LessonService : ILessonService
         await _unitOfWork.Lessons.SaveChangesAsync();
 
         return DataResult<LessonDto>.Success(_mapper.Map<LessonDto>(lesson));
+    }
+
+    /// <summary>
+    /// Проверяет существование пользователя и урока. Возвращает CourseId для дальнейшей работы.
+    /// </summary>
+    private async Task<(BaseResult Result, int CourseId)> ValidateUserAndLesson(long userId, int lessonId, CancellationToken ct)
+    {
+        var userExists = await _unitOfWork.Users.ExistsAsync(u => u.Id == userId, ct);
+        if (!userExists)
+        {
+            return (BaseResult.Failure((int)ErrorCodes.UserNotFound, ErrorMessage.UserNotFound), 0);
+        }
+
+        var lessonData = await _unitOfWork.Lessons.GetAll()
+            .Where(l => l.Id == lessonId)
+            .Select(l => new { l.CourseId })
+            .FirstOrDefaultAsync(ct);
+
+        if (lessonData == null)
+        {
+            return (BaseResult.Failure((int)ErrorCodes.LessonNotFound, ErrorMessage.LessonNotFound), 0);
+        }
+
+        return (BaseResult.Success(), lessonData.CourseId);
+    }
+
+    /// <summary>
+    /// Сверяет ответы студента с базой, считает баллы и готовит список StudentAnswer для вставки.
+    /// </summary>
+    private async Task<(List<StudentAnswer> Answers, float Grade)> ProcessAnswers(PassLessonDto dto, CancellationToken ct)
+    {
+        var questionIds = dto.UserAnswers.Select(x => x.QuestionId).ToList();
+
+        var questionsData = await _unitOfWork.Questions.GetAll()
+            .Where(q => q.LessonId == dto.LessonId && questionIds.Contains(q.Id))
+            .ToDictionaryAsync(k => k.Id, v => new { v.CorrectAnswer, v.Score }, ct);
+
+        float totalGrade = 0;
+        var answersToSave = new List<StudentAnswer>();
+
+        foreach (var userAnswer in dto.UserAnswers)
+        {
+            if (!questionsData.TryGetValue(userAnswer.QuestionId, out var questionInfo)) continue;
+
+            bool isCorrect = string.Equals(
+                userAnswer.UserAnswer?.Trim(),
+                questionInfo.CorrectAnswer?.Trim(),
+                StringComparison.OrdinalIgnoreCase);
+
+            float points = isCorrect ? questionInfo.Score : 0;
+            totalGrade += points;
+
+            answersToSave.Add(new StudentAnswer
+            {
+                StudentId = dto.UserId,
+                QuestionId = userAnswer.QuestionId,
+                Score = points
+            });
+        }
+
+        return (answersToSave, totalGrade);
+    }
+
+    /// <summary>
+    /// Обновляет существующую оценку за курс или создает новую.
+    /// </summary>
+    private async Task UpdateCourseGrade(long userId, int courseId, float lessonGrade, CancellationToken ct)
+    {
+        var userCourseGrade = await _unitOfWork.UserCourseGrades.GetAll()
+            .FirstOrDefaultAsync(x => x.CourseId == courseId && x.UserId == userId, ct);
+
+        if (userCourseGrade == null)
+        {
+            userCourseGrade = new UserCourseGrade
+            {
+                UserId = userId,
+                CourseId = courseId,
+                Grade = lessonGrade
+            };
+            await _unitOfWork.UserCourseGrades.CreateAsync(userCourseGrade);
+        }
+        else
+        {
+            userCourseGrade.Grade += lessonGrade;
+            _unitOfWork.UserCourseGrades.Update(userCourseGrade);
+        }
     }
 }

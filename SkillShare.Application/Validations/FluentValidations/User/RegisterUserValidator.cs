@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.User;
 
 namespace SkillShare.Application.Validations.FluentValidations.User;
 
+/// <summary>
+/// Валидация регистрации пользователя
+/// </summary>
 public class RegisterUserValidator : AbstractValidator<RegisterUserDto>
 {
     public RegisterUserValidator()

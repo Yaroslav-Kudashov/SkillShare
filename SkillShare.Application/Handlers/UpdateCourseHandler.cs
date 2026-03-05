@@ -6,8 +6,10 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.Application.Handlers;
 
-
-
+/// <summary>
+/// Логика обновления курса
+/// </summary>
+/// <param name="courseRepository"></param>
 public class UpdateCourseHandler(IBaseRepository<Course> courseRepository)
     : IRequestHandler<UpdateCourseCommand, Course>
 {

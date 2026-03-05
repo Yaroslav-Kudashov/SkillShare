@@ -8,7 +8,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
-
+/// <summary>
+/// Контроллер по работе с ролями пользователей
+/// </summary>
 [ApiController]
 [Authorize(Roles ="Admin")]
 [Route("api/v{version:apiVersion}/Roles")]

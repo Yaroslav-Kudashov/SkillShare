@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.StudentAnswer;
 
 namespace SkillShare.Application.Validations.FluentValidations.StudentAnswer;
 
+/// <summary>
+/// Валидация обновления ответов студентов
+/// </summary>
 public class UpdateStudentAnswerDtoValidator : AbstractValidator<UpdateStudentAnswerDto>
 {
     public UpdateStudentAnswerDtoValidator()

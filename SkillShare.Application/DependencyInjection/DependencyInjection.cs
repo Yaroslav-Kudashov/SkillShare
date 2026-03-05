@@ -22,6 +22,9 @@ using SkillShare.Domain.Settings;
 
 namespace SkillShare.Application.DependencyInjection;
 
+/// <summary>
+/// Класс для регистрации различного функционала
+/// </summary>
 public static class DependencyInjection
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
@@ -43,6 +46,10 @@ public static class DependencyInjection
         initServices(services);
     }
 
+    /// <summary>
+    /// Регистрация
+    /// </summary>
+    /// <param name="services"></param>
     public static void initServices(this IServiceCollection services)
     {
         services.AddScoped<ICourseValidator, CourseValidator>();
@@ -72,6 +79,10 @@ public static class DependencyInjection
         services.AddScoped<ITokenService, TokenService>();
     }
 
+    /// <summary>
+    /// Мапер
+    /// </summary>
+    /// <param name="services"></param>
     private static void InitMapsterMapping(this IServiceCollection services)
     {
         var config = TypeAdapterConfig.GlobalSettings;

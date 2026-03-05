@@ -15,7 +15,9 @@ using Xunit;
 
 namespace SkillShare.Test;
 
-
+/// <summary>
+/// Тестирование сервиса Course
+/// </summary>
 public class CourseServiceTests
 {
     private IMapper GetMapper()
@@ -27,7 +29,10 @@ public class CourseServiceTests
         return new ServiceMapper(mockServiceProvider.Object, config);
     }
 
-
+    /// <summary>
+    /// Тест на NotNull
+    /// </summary>
+    /// <returns></returns>
     [Fact]
     public async Task GetCourse_ShouldBe_NotNull()
     {
@@ -46,6 +51,10 @@ public class CourseServiceTests
         Assert.NotNull(result);
     }
 
+    /// <summary>
+    /// Тест на создание курса
+    /// </summary>
+    /// <returns></returns>
     [Fact] 
     public async Task CreateCourse_ShouldBe_Return_NewCourse()
     {
@@ -89,6 +98,10 @@ public class CourseServiceTests
         Assert.NotNull(result.Data);
     }
 
+    /// <summary>
+    /// Тестирование удаления курса
+    /// </summary>
+    /// <returns></returns>
     [Fact]
     public async Task DeleteCourse_ShouldBe_Return_TrueSuccess()
     {
@@ -106,6 +119,10 @@ public class CourseServiceTests
         Assert.True(result.IsSuccess);
     }
 
+    /// <summary>
+    /// Тестирование обновления курса
+    /// </summary>
+    /// <returns></returns>
     [Fact]
     public async Task UpdateReport_ShouldBe_Return_NewData_For_Report()
     {

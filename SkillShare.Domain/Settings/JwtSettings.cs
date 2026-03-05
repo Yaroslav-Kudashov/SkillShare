@@ -1,5 +1,8 @@
 ﻿namespace SkillShare.Domain.Settings;
 
+/// <summary>
+/// Класс для настройки аутентификации и регистрации
+/// </summary>
 public class JwtSettings
 {
     public const string DefaultSection = "Jwt";

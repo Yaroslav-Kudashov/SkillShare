@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkillShare.Domain.Dto;
 using SkillShare.Domain.Dto.Question;
 using SkillShare.Domain.Interfaces.Services;
@@ -6,6 +7,10 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
+/// <summary>
+/// Контроллер по работе с вопросами для уроков
+/// </summary>
+[Authorize]
 [ApiController]
 [Route("api/v{version:apiVersion}/questions")]
 public class QuestionController : ControllerBase

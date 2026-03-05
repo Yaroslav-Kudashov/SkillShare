@@ -1,5 +1,8 @@
 ﻿namespace SkillShare.Domain.Settings;
 
+/// <summary>
+/// Класс для настройки RabbitMq
+/// </summary>
 public class RabbitMqSettings
 {
     public string HostName { get; set; }

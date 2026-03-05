@@ -2,6 +2,9 @@
 
 namespace SkillShare.Domain.Entities;
 
+/// <summary>
+/// Сущность пользователь
+/// </summary>
 public class User : IEntityId<long>, IAuditable
 {
     public long Id { get; set; }

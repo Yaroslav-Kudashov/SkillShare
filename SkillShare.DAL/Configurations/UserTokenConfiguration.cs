@@ -4,6 +4,9 @@ using SkillShare.Domain.Entities;
 
 namespace SkillShare.DAL.Configurations;
 
+/// <summary>
+/// Настройки для сущности 
+/// </summary>
 public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
 {
     public void Configure(EntityTypeBuilder<UserToken> builder)

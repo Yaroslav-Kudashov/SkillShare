@@ -1,5 +1,8 @@
 ﻿namespace SkillShare.Domain.Enum;
 
+/// <summary>
+/// Определение ролей
+/// </summary>
 public enum Roles
 {
     Admin = 1,

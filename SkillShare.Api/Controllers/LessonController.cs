@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkillShare.Domain.Dto.Lesson;
 using SkillShare.Domain.Interfaces.Services;
 using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
+/// <summary>
+/// Контроллер по работе с уроками
+/// </summary>
+[Authorize]
 [ApiController]
 [Route("api/v{version:apiVersion}/lessons")]
 public class LessonController : ControllerBase
@@ -59,6 +64,11 @@ public class LessonController : ControllerBase
         return BadRequest(response);
     }
 
+    /// <summary>
+    /// Пройти урок
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     [HttpPost("pass")]
     public async Task<ActionResult<DataResult<float>>> PassLesson(PassLessonDto dto)
     {

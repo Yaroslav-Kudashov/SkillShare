@@ -8,6 +8,10 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.Application.Handlers;
 
+/// <summary>
+/// Логика получения курса по id учителя
+/// </summary>
+/// <param name="courseRepository"></param>
 public class GetCourseByAuthorIdHandler(IBaseRepository<Course> courseRepository)
     : IRequestHandler<GetCourseByAuthorIdQuery, IEnumerable<CourseDto>>
 {

@@ -4,6 +4,10 @@ using SkillShare.Domain.Entities;
 
 namespace SkillShare.DAL.Configurations;
 
+
+/// <summary>
+/// Настройки для сущности 
+/// </summary>
 public class StudentAnswerConfiguration : IEntityTypeConfiguration<StudentAnswer>
 {
     public void Configure(EntityTypeBuilder<StudentAnswer> builder)

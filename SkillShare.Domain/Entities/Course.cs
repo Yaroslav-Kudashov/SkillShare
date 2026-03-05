@@ -2,6 +2,9 @@
 
 namespace SkillShare.Domain.Entities;
 
+/// <summary>
+/// Сущность курс
+/// </summary>
 public class Course : IEntityId<int>, IAuditable
 {
     public int Id { get; set; }

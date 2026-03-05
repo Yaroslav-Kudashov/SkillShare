@@ -5,10 +5,8 @@ using SkillShare.Domain.Result;
 namespace SkillShare.Domain.Interfaces.Services;
 
 /// <summary>
-/// Сервис предназначенный для регистрации/авторизации 
+/// Интерфейс сервиса 
 /// </summary>
-/// <param name="dto"></param>
-/// <returns></returns>
 public interface IAuthService
 {
     /// <summary>

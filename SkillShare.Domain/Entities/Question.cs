@@ -3,9 +3,12 @@ using SkillShare.Domain.Interfaces;
 
 namespace SkillShare.Domain.Entities;
 
-public class Question : IEntityId<long>, IAuditable
+/// <summary>
+/// Сущность для работы с вопросами к урокам 
+/// </summary>
+public class Question : IEntityId<int>, IAuditable
 { 
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     public int LessonId { get; set; }
 

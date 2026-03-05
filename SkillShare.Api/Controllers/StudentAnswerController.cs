@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkillShare.Domain.Dto.StudentAnswer;
 using SkillShare.Domain.Interfaces.Services;
 using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
+/// <summary>
+/// Контроллер по работе с ответами студентов
+/// </summary>
+[Authorize(Roles = "Moderator")]
 [ApiController]
 [Route("api/v{version:apiVersion}/StudentAnswers")]
 public class StudentAnswerController : ControllerBase

@@ -7,6 +7,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Application.Validations;
 
+/// <summary>
+/// Кастомный валидатор для сущности Course
+/// </summary>
 public class CourseValidator : ICourseValidator
 {
     public BaseResult ValidatorCreate(Course course, User user)

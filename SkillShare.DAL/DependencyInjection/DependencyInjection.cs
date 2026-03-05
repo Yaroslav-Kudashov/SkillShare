@@ -9,6 +9,9 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.DAL.DependencyInjection;
 
+/// <summary>
+/// Регистрация фукнционала
+/// </summary>
 public static class DependencyInjection
 {
     public static void AddDataAccessLayer(this IServiceCollection services, IConfiguration configuration)
@@ -25,6 +28,10 @@ public static class DependencyInjection
 
     }
 
+    /// <summary>
+    /// Регистрация репозиториев
+    /// </summary>
+    /// <param name="services"></param>
     private static void InitRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();

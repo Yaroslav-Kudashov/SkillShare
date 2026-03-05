@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.Lesson;
 
 namespace SkillShare.Application.Validations.FluentValidations.Lesson;
 
+/// <summary>
+/// Валидация урока
+/// </summary>
 public class LessonDtoValidator : AbstractValidator<LessonDto>
 {
     public LessonDtoValidator()

@@ -8,6 +8,9 @@ using SkillShare.Domain.Settings;
 using SkillShare.Producer.DependencyInjection;
 namespace SkillShare.Api;
 
+/// <summary>
+/// Настройки проекта 
+/// </summary>
 public class Program
 {
     public static void Main(string[] args)

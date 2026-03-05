@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkillShare.Domain.Dto.UserCourseGrade;
 using SkillShare.Domain.Interfaces.Services;
 using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
+/// <summary>
+/// Контроллер по работе с оценками за курс пользователей 
+/// </summary>
+[Authorize]
 [ApiController]
 [Route("api/v{version:apiVersion}/UserCourseGrades")]
 public class UserCourseGradeController : ControllerBase

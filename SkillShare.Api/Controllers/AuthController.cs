@@ -7,8 +7,12 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Api.Controllers;
 
+/// <summary>
+/// Контроллер предназначенный для авторизации и аутентификации
+/// </summary>
 [ApiController]
 [Route("api/v{version:apiVersion}/Auth")]
+
 public class AuthController : Controller
 {
     private readonly IAuthService _authService;
@@ -19,7 +23,7 @@ public class AuthController : Controller
     }
 
     /// <summary>
-    /// Регистрацияя пользователя
+    /// Регистрация пользователя
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
@@ -35,7 +39,7 @@ public class AuthController : Controller
     }
 
     /// <summary>
-    /// Логин пользователя
+    /// Аутентификация пользователя
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>

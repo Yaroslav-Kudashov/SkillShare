@@ -4,6 +4,9 @@ using ILogger = Serilog.ILogger;
 
 namespace SkillShare.Api.Middlewares;
 
+/// <summary>
+/// Общий Обработчик ошибок
+/// </summary>
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;

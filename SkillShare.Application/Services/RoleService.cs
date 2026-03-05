@@ -12,6 +12,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Application.Services;
 
+/// <summary>
+/// Сервис для работы с ролями
+/// </summary>
 public class RoleService : IRoleService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -28,7 +31,12 @@ public class RoleService : IRoleService
         _unitOfWork = unitOfWork;
     }
 
-
+    /// <summary>
+    /// Создание роли
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<RoleDto>> CreateRoleAsync(CreateRoleDto dto, CancellationToken ct = default)
     {
         var validationResult = await _createValidator.ValidateAsync(dto);
@@ -55,6 +63,12 @@ public class RoleService : IRoleService
         return DataResult<RoleDto>.Success(_mapper.Map<RoleDto>(role));
     }
 
+    /// <summary>
+    /// Обновление роли
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<RoleDto>> UpdateRoleAsync(UpdateRoleDto dto, CancellationToken ct = default)
     {
         var validationResult = await _updateValidator.ValidateAsync(dto);
@@ -78,7 +92,12 @@ public class RoleService : IRoleService
         return DataResult<RoleDto>.Success(_mapper.Map<RoleDto>(updatedRole));
     }
 
-
+    /// <summary>
+    /// Удаление роли
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<RoleDto>> DeleteRoleAsync(int id, CancellationToken ct = default)
     {
         var role = await _unitOfWork.Roles.GetAll()
@@ -94,6 +113,12 @@ public class RoleService : IRoleService
         return DataResult<RoleDto>.Success(_mapper.Map<RoleDto>(role));
     }
 
+    /// <summary>
+    /// Добавление роли пользователю
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<UserRoleDto>> AddRoleForUserAsync(UserRoleDto dto, CancellationToken ct = default)
     {
         var user = await _unitOfWork.Users.GetAll()
@@ -124,6 +149,12 @@ public class RoleService : IRoleService
 
     }
 
+    /// <summary>
+    /// Удаление роли у пользователя
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<UserRoleDto>> DeleteRoleForUserAsync(RemoveUserRoleDto dto, CancellationToken ct = default)
     {
         var user = await _unitOfWork.Users.GetAll()
@@ -149,6 +180,12 @@ public class RoleService : IRoleService
         return DataResult<UserRoleDto>.Success(_mapper.Map<UserRoleDto>(userRole));
     }
 
+    /// <summary>
+    /// Обновление роли у пользователя с использованием транзакции
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<UserRoleDto>> UpdateRoleForUserAsync(UpdateUserRoleDto dto, CancellationToken ct = default)
     {
         var user = await _unitOfWork.Users.GetAll()

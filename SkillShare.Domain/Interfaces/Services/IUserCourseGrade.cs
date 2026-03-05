@@ -3,6 +3,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Domain.Interfaces.Services;
 
+/// <summary>
+/// Интерфейс сервиса 
+/// </summary>
 public interface IUserCourseGradeService
 {
     /// <summary>

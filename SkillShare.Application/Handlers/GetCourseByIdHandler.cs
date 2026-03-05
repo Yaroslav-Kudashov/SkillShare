@@ -8,6 +8,10 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.Application.Handlers;
 
+/// <summary>
+/// Логика получения курса по id
+/// </summary>
+/// <param name="courseRepository"></param>
 public class GetCourseByIdHandler(IBaseRepository<Course> courseRepository) : IRequestHandler<GetCourseQuery, CourseDto?>
 {
     public async Task<CourseDto?> Handle(GetCourseQuery request, CancellationToken ct)

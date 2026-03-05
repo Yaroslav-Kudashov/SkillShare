@@ -16,6 +16,9 @@ using SkillShare.Domain.Settings;
 
 namespace SkillShare.Application.Services;
 
+/// <summary>
+/// Сервис для регистрации и аутентификации
+/// </summary>
 public class TokenService : ITokenService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -33,6 +36,11 @@ public class TokenService : ITokenService
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Генерация access токена
+    /// </summary>
+    /// <param name="claims"></param>
+    /// <returns></returns>
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
@@ -45,6 +53,10 @@ public class TokenService : ITokenService
         return token;
     }
 
+    /// <summary>
+    /// Генерация Refresh токена
+    /// </summary>
+    /// <returns></returns>
     public string GenerateRefreshToken()
     {
         var randomNumbers = new byte[32];
@@ -55,6 +67,11 @@ public class TokenService : ITokenService
         return Convert.ToBase64String(randomNumbers);
     }
 
+    /// <summary>
+    /// Получение клаймов для юзера
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
     public CollectionResult<Claim> GetClaimsFromUser(User user)
     {
         if (user == null)
@@ -75,7 +92,12 @@ public class TokenService : ITokenService
         return CollectionResult<Claim>.Success(claims);
     }
 
-
+    /// <summary>
+    /// Обновление токена
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<TokenDto>> RefreshToken(TokenDto dto, CancellationToken ct)
     {
         var user = await _unitOfWork.Users.GetAll()

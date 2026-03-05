@@ -1,8 +1,12 @@
-﻿using SkillShare.Domain.Dto.CourseDto;
+﻿using SkillShare.Domain.Dto.Course;
+using SkillShare.Domain.Dto.CourseDto;
 using SkillShare.Domain.Result;
 
 namespace SkillShare.Domain.Interfaces.Services;
 
+/// <summary>
+/// Интерфейс сервиса 
+/// </summary>
 public interface ICourseService
 {
     /// <summary>
@@ -29,4 +33,7 @@ public interface ICourseService
     /// Обновление курса
     /// </summary>
     Task<DataResult<CourseDto>> UpdateAsync(UpdateCourseDto dto, CancellationToken ct = default);
+
+    // Получение списка курсов с минимальными данными для дерева
+    Task<CollectionResult<CourseNodeDto>> GetCourseTreeAsync(CancellationToken ct = default);
 }

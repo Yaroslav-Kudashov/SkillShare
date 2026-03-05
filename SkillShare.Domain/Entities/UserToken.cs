@@ -2,6 +2,9 @@
 
 namespace SkillShare.Domain.Entities;
 
+/// <summary>
+/// Сущность для работы с токенами юзеров
+/// </summary>
 public class UserToken : IEntityId<long>
 {
     public long Id { get; set; }

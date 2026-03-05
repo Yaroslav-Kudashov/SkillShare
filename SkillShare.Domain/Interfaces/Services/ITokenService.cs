@@ -5,6 +5,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Domain.Interfaces.Services;
 
+/// <summary>
+/// Интерфейс сервиса 
+/// </summary>
 public interface ITokenService
 {
     string GenerateAccessToken(IEnumerable<Claim> claims);

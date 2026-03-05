@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.CourseDto;
 
 namespace SkillShare.Application.Validations.FluentValidations.Course;
 
+/// <summary>
+/// Валидация создания курса
+/// </summary>
 public class CreateCourseValidator : AbstractValidator<CreateCourseDto>
 {
     public CreateCourseValidator()

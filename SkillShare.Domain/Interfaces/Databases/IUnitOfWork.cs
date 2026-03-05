@@ -4,10 +4,21 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.Domain.Interfaces.Databases;
 
+/// <summary>
+/// Интерфейс класса общего репозитория для сущностей и методов
+/// </summary>
 public interface IUnitOfWork : IStateSaveChanges
 {
+    /// <summary>
+    /// Создание метода для начала транзакции
+    /// </summary>
+    /// <returns></returns>
     Task<IDbContextTransaction> BeginTransactionAsync();
 
+
+    /// <summary>
+    /// Создание репозиториев
+    /// </summary>
     IBaseRepository<User> Users { get; set; }
 
     IBaseRepository<Role> Roles { get; set; }

@@ -5,7 +5,7 @@ using SkillShare.Domain.Result;
 namespace SkillShare.Domain.Interfaces.Services;
 
 /// <summary>
-/// Сервис предназначенный для управлением ролями пользователей
+/// Интерфейс сервиса 
 /// </summary>
 public interface IRoleService
 {

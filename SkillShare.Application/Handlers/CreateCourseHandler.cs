@@ -5,6 +5,10 @@ using SkillShare.Domain.Interfaces.Repositories;
 
 namespace SkillShare.Application.Handlers;
 
+/// <summary>
+/// Логика создания курса
+/// </summary>
+/// <param name="courseRepository"></param>
 public class CreateCourseHandler(IBaseRepository<Course> courseRepository)
     : IRequestHandler<CreateCourseCommand, Course> 
 {

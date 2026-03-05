@@ -11,6 +11,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Application.Services;
 
+/// <summary>
+/// Сервис для работы с ответами студентов
+/// </summary>
 public class StudentAnswerService : IStudentAnswerService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -24,6 +27,12 @@ public class StudentAnswerService : IStudentAnswerService
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Получение ответа студента по его id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<CollectionResult<StudentAnswerDto>> GetByUserIdAsync(long userId, CancellationToken ct = default)
     {
         var userExists = await _unitOfWork.Users.ExistsAsync(x => x.Id == userId, ct);
@@ -46,6 +55,12 @@ public class StudentAnswerService : IStudentAnswerService
         return CollectionResult<StudentAnswerDto>.Success(answers);
     }
 
+    /// <summary>
+    /// Получение ответа студента по id урока
+    /// </summary>
+    /// <param name="lessonId"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<CollectionResult<StudentAnswerDto>> GetByLessonIdAsync(int lessonId, CancellationToken ct = default)
     {
         var lessonExists = await _unitOfWork.Lessons.ExistsAsync(x => x.Id == lessonId, ct);
@@ -67,6 +82,12 @@ public class StudentAnswerService : IStudentAnswerService
         return CollectionResult<StudentAnswerDto>.Success(answers);
     }
 
+    /// <summary>
+    /// Получение ответа стуендта по id курса
+    /// </summary>
+    /// <param name="courseId"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<CollectionResult<StudentAnswerDto>> GetByCourseIdAsync(int courseId, CancellationToken ct = default)
     {
         var courseExists = await _unitOfWork.Courses.ExistsAsync(x => x.Id == courseId, ct);
@@ -89,6 +110,12 @@ public class StudentAnswerService : IStudentAnswerService
         return CollectionResult<StudentAnswerDto>.Success(answers);
     }
 
+    /// <summary>
+    /// Удаление ответа
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<StudentAnswerDto>> DeleteAsync(long id, CancellationToken ct = default)
     {
         var answer = await _unitOfWork.StudentAnswers.GetAll()

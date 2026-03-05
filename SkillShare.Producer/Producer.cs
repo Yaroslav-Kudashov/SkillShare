@@ -5,6 +5,9 @@ using SkillShare.Producer.Interfaces;
 
 namespace SkillShare.Producer;
 
+/// <summary>
+/// Класс Producer для работы с отправкой сообщений в RabbitMq
+/// </summary>
 public class Producer : IMessageProducer
 {
     public void SendMessage<T>(T message, string routingKey, string? exchange = default)

@@ -1,5 +1,8 @@
 ﻿namespace SkillShare.Domain.Enum;
 
+/// <summary>
+/// Коды для ошибок
+/// </summary>
 public enum ErrorCodes
 {
     UserNotFound = 1001,

@@ -3,6 +3,9 @@ using SkillShare.Domain.Dto.Question;
 
 namespace SkillShare.Application.Validations.FluentValidations.Question;
 
+/// <summary>
+/// Валидация создания вопроса
+/// </summary>
 public class CreateQuestionDtoValidator : AbstractValidator<CreateQuestionDto>
 {
     public CreateQuestionDtoValidator()

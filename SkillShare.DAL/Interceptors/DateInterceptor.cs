@@ -4,6 +4,9 @@ using SkillShare.Domain.Interfaces;
 
 namespace SkillShare.DAL.Interceptors;
 
+/// <summary>
+/// Интерсептор для автоматической проставлении даты и времени при создании и обновлении сущностей
+/// </summary>
 public class DateInterceptor : SaveChangesInterceptor
 {
     // Синхронный метод (для SaveChanges)
@@ -15,7 +18,7 @@ public class DateInterceptor : SaveChangesInterceptor
         return base.SavingChanges(eventData, result);
     }
 
-    // Асинхронный метод (для SaveChangesAsync) - ЭТОТ ВАЖНО!
+    // Асинхронный метод (для SaveChangesAsync) 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
         DbContextEventData eventData,
         InterceptionResult<int> result,
@@ -25,6 +28,11 @@ public class DateInterceptor : SaveChangesInterceptor
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
+
+    /// <summary>
+    /// Для обновления
+    /// </summary>
+    /// <param name="context"></param>
     private void UpdateAuditableEntities(DbContext? context)
     {
         if (context == null) return;
@@ -44,7 +52,6 @@ public class DateInterceptor : SaveChangesInterceptor
             if (entry.State == EntityState.Modified)
             {
                 entry.Property(x => x.UpdateAt).CurrentValue = DateTime.UtcNow;
-                // Запрещаем изменение CreatedAt
                 entry.Property(x => x.CreatedAt).IsModified = false;
             }
         }

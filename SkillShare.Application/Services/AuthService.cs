@@ -14,6 +14,9 @@ using SkillShare.Domain.Result;
 
 namespace SkillShare.Application.Services;
 
+/// <summary>
+/// Сервис предназначенный для аутентификации и регистрации
+/// </summary>
 public class AuthService : IAuthService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -33,6 +36,12 @@ public class AuthService : IAuthService
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Аутентификация пользователя
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<TokenDto>> Login(LoginUserDto dto, CancellationToken ct = default)
     {
         var user = await _unitOfWork.Users.GetAll()
@@ -89,7 +98,12 @@ public class AuthService : IAuthService
         return DataResult<TokenDto>.Success(data);
     }
 
-
+    /// <summary>
+    /// Регистрация пользователя
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<DataResult<UserDto>> Register(RegisterUserDto dto, CancellationToken ct = default)
     {
         var user = await _unitOfWork.Users.GetAll().FirstOrDefaultAsync(x => x.Login == dto.Login, ct);
