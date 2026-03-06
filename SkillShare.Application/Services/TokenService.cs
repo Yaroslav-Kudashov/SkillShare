@@ -36,11 +36,7 @@ public class TokenService : ITokenService
         _unitOfWork = unitOfWork;
     }
 
-    /// <summary>
-    /// Генерация access токена
-    /// </summary>
-    /// <param name="claims"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
@@ -53,10 +49,7 @@ public class TokenService : ITokenService
         return token;
     }
 
-    /// <summary>
-    /// Генерация Refresh токена
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public string GenerateRefreshToken()
     {
         var randomNumbers = new byte[32];
@@ -67,11 +60,7 @@ public class TokenService : ITokenService
         return Convert.ToBase64String(randomNumbers);
     }
 
-    /// <summary>
-    /// Получение клаймов для юзера
-    /// </summary>
-    /// <param name="user"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public CollectionResult<Claim> GetClaimsFromUser(User user)
     {
         if (user == null)
@@ -92,12 +81,7 @@ public class TokenService : ITokenService
         return CollectionResult<Claim>.Success(claims);
     }
 
-    /// <summary>
-    /// Обновление токена
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task<DataResult<TokenDto>> RefreshToken(TokenDto dto, CancellationToken ct)
     {
         var user = await _unitOfWork.Users.GetAll()
@@ -151,6 +135,7 @@ public class TokenService : ITokenService
         return DataResult<TokenDto>.Success(tokenDto);
     }
 
+    /// <inheritdoc/>
     public async Task<DataResult<User>> GetValidUserForRefreshAsync(
     TokenDto dto,
     CancellationToken ct)
@@ -190,12 +175,7 @@ public class TokenService : ITokenService
         return DataResult<User>.Success(user);
     }
 
-    /// <summary>
-    /// Получение ClaimsPrincipal из истекшего токена
-    /// </summary>
-    /// <param name="accessToken">Access token</param>
-    /// <returns>ClaimsPrincipal</returns>
-    /// <exception cref="SecurityTokenException">Когда токен невалидный</exception>
+    /// <inheritdoc/>
     public DataResult<ClaimsPrincipal> GetPrincipalFromExpiredToken(string accessToken)
     {
         var tokenValidationParameters = new TokenValidationParameters

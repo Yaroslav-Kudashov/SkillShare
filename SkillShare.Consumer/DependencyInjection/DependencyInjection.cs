@@ -3,7 +3,7 @@
 namespace SkillShare.Consumer.DependencyInjection;
 
 /// <summary>
-/// Регистрация 
+/// регистрация RabbitMq консьюмера
 /// </summary>
 public static class DependencyInjection
 {

@@ -10,7 +10,7 @@ using SkillShare.Domain.Interfaces.Repositories;
 namespace SkillShare.DAL.DependencyInjection;
 
 /// <summary>
-/// Регистрация фукнционала
+/// Регистрация слоя данных
 /// </summary>
 public static class DependencyInjection
 {

@@ -19,21 +19,13 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _dbSet = dbContex.Set<TEntity>();
     }
 
-    /// <summary>
-    /// Получение
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public IQueryable<TEntity> GetAll()
     {
         return _DbContex.Set<TEntity>();
     }
 
-    /// <summary>
-    /// Создание
-    /// </summary>
-    /// <param name="entity"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <inheritdoc/>
     public async Task<TEntity> CreateAsync(TEntity entity)
     {
         if (entity == null)
@@ -44,11 +36,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return entity;
     }
 
-    /// <summary>
-    /// Удаление
-    /// </summary>
-    /// <param name="entity"></param>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <inheritdoc/>
     public void Remove(TEntity entity)
     {
         if (entity == null)
@@ -57,13 +45,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _DbContex.Remove(entity);
     }
 
-    /// <summary>
-    /// Обновление
-    /// </summary>
-    /// <param name="entity"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    public  TEntity Update(TEntity entity)
+    /// <inheritdoc/>
+    public TEntity Update(TEntity entity)
     {
         if (entity == null)
             throw new ArgumentNullException("Entity is null");
@@ -73,32 +56,19 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return entity;
     }
 
-    /// <summary>
-    /// Сохранение
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task<int> SaveChangesAsync()
     {
         return await _DbContex.SaveChangesAsync();
     }
 
-    /// <summary>
-    /// Удобное получение
-    /// </summary>
-    /// <param name="predicate"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
     {
         return await _dbSet.AnyAsync(predicate, ct);
     }
 
-    /// <summary>
-    /// Создание в цикле
-    /// </summary>
-    /// <param name="entities"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task CreateRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct = default)
     {
         await _dbSet.AddRangeAsync(entities, ct);

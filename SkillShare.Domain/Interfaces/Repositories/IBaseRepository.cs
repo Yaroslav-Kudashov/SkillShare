@@ -10,7 +10,7 @@ namespace SkillShare.Domain.Interfaces.Repositories;
 public interface IBaseRepository<TEntity> : IStateSaveChanges
 {
     /// <summary>
-    /// Получение
+    /// получение всех сущностей
     /// </summary>
     /// <returns></returns>
     IQueryable<TEntity> GetAll();
@@ -36,7 +36,7 @@ public interface IBaseRepository<TEntity> : IStateSaveChanges
     void Remove(TEntity entity);
 
     /// <summary>
-    /// Удобное получение
+    /// Проверить есть ли сущность с условием из <see cref="predicate" />
     /// </summary>
     /// <param name="predicate"></param>
     /// <param name="ct"></param>

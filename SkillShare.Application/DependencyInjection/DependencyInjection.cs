@@ -23,7 +23,7 @@ using SkillShare.Domain.Settings;
 namespace SkillShare.Application.DependencyInjection;
 
 /// <summary>
-/// Класс для регистрации различного функционала
+/// Регистрация слоя бизнес-логики
 /// </summary>
 public static class DependencyInjection
 {
@@ -43,14 +43,14 @@ public static class DependencyInjection
         });
 
 
-        initServices(services);
+        InitServices(services);
     }
 
     /// <summary>
-    /// Регистрация
+    /// Регистрация бизнес-сервисов
     /// </summary>
     /// <param name="services"></param>
-    public static void initServices(this IServiceCollection services)
+    public static void InitServices(this IServiceCollection services)
     {
         services.AddScoped<ICourseValidator, CourseValidator>();
         services.AddScoped<IValidator<CreateCourseDto>, CreateCourseValidator>();
