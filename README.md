@@ -8,7 +8,7 @@
 - **Управление обучением** — создание курсов, уроков и вопросов с поддержкой дерева курсов.
 - **Автоматизированное тестирование** — проверка ответов в реальном времени.
 - **Отслеживание прогресса** — расчет среднего балла и успеваемости по курсам.
-- **Clean Architecture & DDD** — разделение на слои и богатые доменные модели.
+- **Clean Architecture &  — разделение на слои.
 - **Event-Driven** — асинхронное взаимодействие через RabbitMQ.
 - **Паттерны проектирования** — CQRS (MediatR), Репозиторий, UnitOfWork, Фасад.
 
@@ -35,21 +35,18 @@
 2. **Настройте секреты** (User Secrets). Пример конфигурации:
 -
   {
-  "ConnectionStrings:PostgresSQL": "Server=localhost;Port=5432;Database=SkillShareDb;Username=postgres;Password=postgres",
-  "RedisSettings:Url": "localhost:6379",
-  "RabbitMqSettings:Host": "localhost",
-  "JwtSettings:JwtKey": "your_very_long_secret_key_here_32_chars_min",
-  "AdminSettings:Login": "admin",
-  "AdminSettings:Password": "12345",
-  "ElasticConfiguration:Uri": "http://localhost:9200"
-}
+    "Kestrel:Certificates:Development:Password": "4a621f01-907e-4559-8ef4-b024b0b2a84f",
+    "ConnectionStrings:PostgresSQL": "Host=localhost;Port=5432;Database=SkillShare;Username=postgres;Password=postgres",
+    "RedisSettings": {
+        "Url": "localhost",
+        "InstanceName": "local"
+    }
  - Перейдите в терминале в папку deploy и выполните команду: docker-compose up -d
-3. Запуск API:
-  Для запуска контейнера API добавьте в папку deploy/.env конфиги (используйте названия сервисов вместо localhost). Пример в файле .env.template.
-4. Документация:
+
+3. Документация:
   После запуска Swagger доступен по адресу:
-  •  Локально: https://localhost:7281/swagger/index.html
-  •  В Docker: https://localhost:5001/swagger/index.html
+  •  Локально: https://localhost:7174
+  •  В Docker: http://localhost:5172
 
  Пример использования
 1. Авторизация:
