@@ -43,7 +43,7 @@
   "AdminSettings:Password": "12345",
   "ElasticConfiguration:Uri": "http://localhost:9200"
 }
-  Перейдите в терминале в папку deploy и выполните команду: docker-compose up -d
+ - Перейдите в терминале в папку deploy и выполните команду: docker-compose up -d
 3. Запуск API:
   Для запуска контейнера API добавьте в папку deploy/.env конфиги (используйте названия сервисов вместо localhost). Пример в файле .env.template.
 4. Документация:
